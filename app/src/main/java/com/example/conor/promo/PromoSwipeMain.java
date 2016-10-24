@@ -10,6 +10,7 @@ import com.example.conor.promo.SlidingTabs.SlidingTabLayout;
 
 public class PromoSwipeMain extends FragmentActivity {
 
+    // Declare UI elements
     ViewPager viewPager;
     SlidingTabLayout slidingTabLayout;
 
