@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 
 import com.example.conor.promo.SlidingTabs.SlidingTabLayout;
 
