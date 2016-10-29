@@ -1,7 +1,6 @@
 package com.example.conor.promo;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,9 +53,6 @@ public class CustomAdapter extends BaseAdapter {
         // Creates new object each time
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View row = inflater.inflate(R.layout.single_row, parent, false);
-
-        // Change Font Type
-        //Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
 
         // Get Promo in question
         Promotion promoTemp = promotions.get(position);

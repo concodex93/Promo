@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by conor on 25/10/2016.
  */
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper implements IStorage{
 
     // DB NAME
     public static final String DATABASE_NAME = "Promo.db";
@@ -47,6 +47,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // EXECUTES STRING QUERY
         db.execSQL("create table " + VENUE_TABLE +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT, ADDRESS TEXT) ");
+        db.execSQL("create table " + PROMOTION_TABLE +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT, ADDRESS TEXT) ");
+        db.execSQL("create table " + DRINK_TABLE +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT, ADDRESS TEXT) ");
+
 
     }
 
@@ -54,5 +57,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXIST"+ VENUE_TABLE);
         onCreate(db);
+    }
+
+    // CRUD Functionality
+
+    @Override
+    public void CREATE() {
+
+    }
+
+    @Override
+    public Object READ(Object obj) {
+        return null;
+    }
+
+    @Override
+    public void UPDATE(Object obj) {
+
+    }
+
+    @Override
+    public void DELETE(Object obj) {
+
     }
 }

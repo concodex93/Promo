@@ -1,4 +1,5 @@
 package com.example.conor.promo;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,12 +12,40 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    /*
+
+    THIS IS WHERE THE SPLASH SCREEN WILL LIVE
+
+    May want to make initial GET response to server to load data while splash is displaying
+
+     */
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // SPLASH
+
+        Thread myThread = new Thread(){
+            @Override
+            public void run() {
+                try {
+                    sleep(3000);
+                    Intent i = new Intent(MainActivity.this, PromoSwipeMain.class);
+                    startActivity(i);
+                    finish();
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        myThread.start();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

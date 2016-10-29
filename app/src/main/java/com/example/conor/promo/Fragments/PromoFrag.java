@@ -16,8 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.conor.promo.CustomAdapter;
-import com.example.conor.promo.Database.DatabaseHelper;
-import com.example.conor.promo.MainActivity;
+import com.example.conor.promo.JSON.JsonHandler;
 import com.example.conor.promo.Promotion;
 import com.example.conor.promo.R;
 
@@ -33,7 +32,8 @@ public class PromoFrag extends Fragment {
     CustomAdapter customAdapter;
 
     // Declare data structures
-    ArrayList<Promotion> promotionList;
+    ArrayList<Promotion> tempPromotionList;
+    ArrayList<Promotion> promoList;
 
     // DB
     //DatabaseHelper myDB;
@@ -57,13 +57,13 @@ public class PromoFrag extends Fragment {
         Promotion dummyPromotion2 = new Promotion("Coppers is shite!");
         Promotion dummyPromotion3 = new Promotion("The George tho ;)");
 
-        promotionList = new ArrayList<Promotion>();
-        promotionList.add(dummyPromotion1);
-        promotionList.add(dummyPromotion2);
-        promotionList.add(dummyPromotion3);
+        tempPromotionList = new ArrayList<Promotion>();
+        tempPromotionList.add(dummyPromotion1);
+        tempPromotionList.add(dummyPromotion2);
+        tempPromotionList.add(dummyPromotion3);
 
         listView = (ListView) getView().findViewById(R.id.listView);
-        customAdapter = new CustomAdapter(getActivity(), promotionList);
+        customAdapter = new CustomAdapter(getActivity(), tempPromotionList);
         listView.setAdapter(customAdapter);
     }
 
@@ -86,7 +86,7 @@ public class PromoFrag extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                String ErrorMessage = ("Server Error. Check your internet connenction");
+                String ErrorMessage = ("Connection error ... ");
                 Toast.makeText(getActivity(), ErrorMessage, Toast.LENGTH_SHORT).show();
             }
         });
@@ -97,5 +97,9 @@ public class PromoFrag extends Fragment {
 
     public void ProcessResponse(String response){
         // Make Class that handles JSON paring and convert into usable objects (JsonHadler)
+        JsonHandler jsonHandler = new JsonHandler();
+
+        promoList = new ArrayList<Promotion>();
+
     }
 }
