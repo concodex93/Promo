@@ -22,6 +22,11 @@ public class JsonHandler {
     public ArrayList<Promotion> parseJson (String json) {
 
         try {
+
+            /*
+             SOURCE FOR CODE: http://javabeat.net/parsing-json-using-java-and-gson-library/
+             */
+
             // Parse json string and store inside jsonArray
             JsonParser jsonParser = new JsonParser();
             JsonArray jsonArray = jsonParser.parse(json).getAsJsonArray();
