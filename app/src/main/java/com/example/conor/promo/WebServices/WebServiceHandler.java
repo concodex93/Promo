@@ -22,7 +22,6 @@ import com.example.conor.promo.Database.IStorage;
 public class WebServiceHandler implements IStorage {
 
     Context context;
-    String url;
 
     public WebServiceHandler (Context c) {context = c;}
 

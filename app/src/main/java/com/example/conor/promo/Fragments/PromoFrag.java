@@ -29,10 +29,8 @@ public class PromoFrag extends Fragment {
 
     // Declare UI elements
     ListView listView;
-    CustomAdapter customAdapter;
 
     // Declare data structures
-    ArrayList<Promotion> tempPromotionList;
     ArrayList<Promotion> promoList;
 
     // DB
@@ -52,19 +50,11 @@ public class PromoFrag extends Fragment {
         // CREATES DB INSTANCE
         //myDB = new DatabaseHelper(getActivity());
 
-        // DUMMY OBJECT
-        Promotion dummyPromotion1 = new Promotion("Diceys $2 drinks!");
-        Promotion dummyPromotion2 = new Promotion("Coppers is shite!");
-        Promotion dummyPromotion3 = new Promotion("The George tho ;)");
-
-        tempPromotionList = new ArrayList<Promotion>();
-        tempPromotionList.add(dummyPromotion1);
-        tempPromotionList.add(dummyPromotion2);
-        tempPromotionList.add(dummyPromotion3);
+        // Make GET request to sever
+        GET_Promos();
 
         listView = (ListView) getView().findViewById(R.id.listView);
-        customAdapter = new CustomAdapter(getActivity(), tempPromotionList);
-        listView.setAdapter(customAdapter);
+
     }
 
     public void GET_Promos(){
@@ -98,8 +88,9 @@ public class PromoFrag extends Fragment {
     public void ProcessResponse(String response){
         // Make Class that handles JSON paring and convert into usable objects (JsonHadler)
         JsonHandler jsonHandler = new JsonHandler();
-
-        promoList = new ArrayList<Promotion>();
-
+        // Populate list
+        promoList = jsonHandler.parseJson(response);
+        // Send to adapter
+        listView.setAdapter(new CustomAdapter(getActivity(), promoList));
     }
 }
