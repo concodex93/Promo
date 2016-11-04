@@ -1,11 +1,21 @@
 package com.example.conor.promo.JSON;
 
+import com.example.conor.promo.Drink;
 import com.example.conor.promo.Promotion;
+import com.example.conor.promo.Venue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.security.Policy;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by conor on 27/10/2016.
@@ -13,32 +23,21 @@ import java.util.ArrayList;
 public class JsonHandler {
 
     // We will pass Promotion objects from response here
-    ArrayList<Promotion> arrayList;
+    ArrayList<Object> arrayList;
+
 
     public JsonHandler () {
-        arrayList = new ArrayList<Promotion>();
+        arrayList = new ArrayList<>();
     }
 
-    public ArrayList<Promotion> parseJson (String json) {
+    public ArrayList<Object> parseJson (String json) {
 
         try {
 
-            /*
-             SOURCE FOR CODE: http://javabeat.net/parsing-json-using-java-and-gson-library/
-             */
+            Gson gson = new GsonBuilder().create();
+            Promotion promotion1 = gson.fromJson(json, Promotion.class);
+            arrayList.add(promotion1);
 
-            // Parse json string and store inside jsonArray
-            JsonParser jsonParser = new JsonParser();
-            JsonArray jsonArray = jsonParser.parse(json).getAsJsonArray();
-
-            // Iterate through array
-            for (int i = 0; i <= jsonArray.size(); i++) {
-                // Make message object and store in list
-                Gson gson = new GsonBuilder().create();
-                Promotion promotionObj = gson.fromJson(json, Promotion.class);
-                // Add to list
-                arrayList.add(promotionObj);
-            }
 
         } catch (Exception e ){
             // Pass for now

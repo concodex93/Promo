@@ -15,14 +15,24 @@ import java.util.ArrayList;
 public class CustomAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<Promotion> promotions;
+    ArrayList<Object> objectsToPopulateListView;
 
-    public CustomAdapter (Context c, ArrayList<Promotion> arrayList){
+    // Set up with generic object so HOPEFULLY, we can reuse this adapter for something
+    // else if we need to!
+
+    public CustomAdapter (Context c, ArrayList<Object> arrayList){
             context = c;
-            promotions = new ArrayList<Promotion>();
-            for (Promotion p : arrayList){
+            objectsToPopulateListView = new ArrayList<Object>();
+
+            for (Object o : arrayList){
                 try {
-                    promotions.add(new Promotion(p.getPromoName()));
+
+                    if (o instanceof Promotion){
+                        // Add to list
+                        objectsToPopulateListView.add(new Promotion(((Promotion) o).getPromoName(), ((Promotion) o).getDescription()
+                                , ((Promotion) o).getDrink(), ((Promotion) o).getPrice(), ((Promotion) o).getVenue()));
+                    }
+
                 } catch(NullPointerException e){
                     // Pass
                 }
@@ -32,13 +42,13 @@ public class CustomAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         // Return number of elements to return
-        return promotions.size();
+        return objectsToPopulateListView.size();
     }
 
     @Override
     public Object getItem(int position) {
         // returns object at position
-        return promotions.get(position);
+        return objectsToPopulateListView.get(position);
     }
 
     @Override
@@ -55,7 +65,7 @@ public class CustomAdapter extends BaseAdapter {
         final View row = inflater.inflate(R.layout.single_row, parent, false);
 
         // Get Promo in question
-        Promotion promoTemp = promotions.get(position);
+        Promotion promoTemp = (Promotion) objectsToPopulateListView.get(position);
 
         // Set textView
         TextView textView = (TextView) row.findViewById(R.id.textView);

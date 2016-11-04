@@ -16,9 +16,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.conor.promo.CustomAdapter;
+import com.example.conor.promo.Drink;
 import com.example.conor.promo.JSON.JsonHandler;
 import com.example.conor.promo.Promotion;
 import com.example.conor.promo.R;
+import com.example.conor.promo.Venue;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -31,7 +34,7 @@ public class PromoFrag extends Fragment {
     ListView listView;
 
     // Declare data structures
-    ArrayList<Promotion> promoList;
+    ArrayList<Object> promoList;
 
     // DB
     //DatabaseHelper myDB;
@@ -47,13 +50,17 @@ public class PromoFrag extends Fragment {
     public void onStart() {
         super.onStart();
 
-        // CREATES DB INSTANCE
-        //myDB = new DatabaseHelper(getActivity());
-
-        // Make GET request to sever
-        GET_Promos();
-
         listView = (ListView) getView().findViewById(R.id.listView);
+
+        // Dummy Json Object
+        Drink drinkDummy = new Drink("Bulmbers", "Beer");
+        Venue venueDummy = new Venue("Diceys", "Dublin", "18:00", "02:00");
+        Promotion promotionDummy = new Promotion("2 Euro Beers", "What you think", drinkDummy, "2 Euro", venueDummy);
+        // Convert Java Object to Json String
+        Gson gson = new Gson();
+        String jsonDummy = gson.toJson(promotionDummy);
+        // Begin Processing Method
+        ProcessResponse(jsonDummy);
 
     }
 
@@ -88,7 +95,7 @@ public class PromoFrag extends Fragment {
     public void ProcessResponse(String response){
         // Make Class that handles JSON paring and convert into usable objects (JsonHadler)
         JsonHandler jsonHandler = new JsonHandler();
-        // Populate list
+        // Populate list (May need to handle exception if nothing is returned?)
         promoList = jsonHandler.parseJson(response);
         // Send to adapter
         listView.setAdapter(new CustomAdapter(getActivity(), promoList));
