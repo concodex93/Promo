@@ -56,11 +56,25 @@ public class PromoFrag extends Fragment {
         Drink drinkDummy = new Drink("Bulmbers", "Beer");
         Venue venueDummy = new Venue("Diceys", "Dublin", "18:00", "02:00");
         Promotion promotionDummy = new Promotion("2 Euro Beers", "What you think", drinkDummy, "2 Euro", venueDummy);
+
+        // Dummy Json Object
+        Drink drinkDummy1 = new Drink("Bud", "Beer");
+        Venue venueDummy1 = new Venue("Coppers", "Dublin", "18:00", "02:00");
+        Promotion promotionDummy1 = new Promotion("5 Euro Beers before 10 pm", "Not that great", drinkDummy1, "5 Euro", venueDummy1);
+
         // Convert Java Object to Json String
         Gson gson = new Gson();
         String jsonDummy = gson.toJson(promotionDummy);
-        // Begin Processing Method
-        ProcessResponse(jsonDummy);
+        String jsonDummy1 = gson.toJson(promotionDummy1);
+
+        ArrayList<String> arrayList = new ArrayList<String>();
+        arrayList.add(jsonDummy);
+        arrayList.add(jsonDummy1);
+
+        // Pass arraylist as json string to method
+        String json = new Gson().toJson(arrayList);
+        ProcessResponse(json);
+
 
     }
 
