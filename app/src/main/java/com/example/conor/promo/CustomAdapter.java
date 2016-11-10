@@ -9,9 +9,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by conor on 24/10/2016.
- */
+//test test
+
 public class CustomAdapter extends BaseAdapter {
 
     Context context;
