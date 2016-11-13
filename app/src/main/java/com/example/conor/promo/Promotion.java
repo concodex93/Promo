@@ -1,8 +1,5 @@
 package com.example.conor.promo;
 
-/**
- * Created by conor on 24/10/2016.
- */
 public class Promotion {
 
     //We will define proper attributes later :)

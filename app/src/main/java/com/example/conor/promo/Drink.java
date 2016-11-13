@@ -1,8 +1,6 @@
 package com.example.conor.promo;
 
-/**
- * Created by conor on 04/11/2016.
- */
+
 public class Drink {
 
     private String name;

@@ -8,10 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-/**
- * Created by conor on 27/10/2016.
- */
 public class JsonHandler {
 
     // We will pass Promotion objects from response here

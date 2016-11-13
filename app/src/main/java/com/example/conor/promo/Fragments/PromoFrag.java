@@ -21,14 +21,15 @@ import com.example.conor.promo.JSON.JsonHandler;
 import com.example.conor.promo.Promotion;
 import com.example.conor.promo.R;
 import com.example.conor.promo.Venue;
+import com.example.conor.promo.WebServices.WebServiceHandler;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-/**
- * Created by conor on 23/10/2016.
- */
+
 public class PromoFrag extends Fragment {
+    //###WARNING INCORRECT
+    String displayPromos_url = "http://promo  dublin.dx.am/php/displayPromos.php";
 
     // Declare UI elements
     ListView listView;
@@ -78,39 +79,93 @@ public class PromoFrag extends Fragment {
 
     }
 
-    public void GET_Promos(){
+    //make a seperate class for retrieving data from Server. pass in Activity/context, url string
+    //return data and format accordingly
+    //make global url strings e.g "url.displayPromos_url"
 
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
+//    public void GET_Promos(){
+//
+//        // Instantiate the RequestQueue.
+//        RequestQueue queue = Volley.newRequestQueue(getActivity());
+//
+//        // Request a string response from the provided URL.
+//        String url = displayPromos_url;
+//
+//        // Request a string response from the provided URL.
+//
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        //connects to DB url, retreives response & passes to ProcessResponse method
+//                        ProcessResponse(response);
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                String ErrorMessage = ("Connection error ... ");
+//                Toast.makeText(getActivity(), ErrorMessage, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        stringRequest.setRetryPolicy((new DefaultRetryPolicy(3000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)));
+//        // Add the request to the RequestQueue.
+//        queue.add(stringRequest);
+//    }
+
+    public void GET_Promos_from_webservicesHandler() {
+
+        // Instantiate the webServiceHandler, pass in context (getActivity?).
+        WebServiceHandler webServiceHandler = new WebServiceHandler(getActivity());
 
         // Request a string response from the provided URL.
-        String url = "";
+        String url = displayPromos_url;
 
-        // Request a string response from the provided URL.
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        ProcessResponse(response);
-                    }
-                }, new Response.ErrorListener() {
+        webServiceHandler.READ_STRING(url, new WebServiceHandler.VolleyCallback() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                String ErrorMessage = ("Connection error ... ");
-                Toast.makeText(getActivity(), ErrorMessage, Toast.LENGTH_SHORT).show();
+            public void onSuccess(String result) {
+                //connects to DB url, retreives response & passes to ProcessResponse method
+                ProcessResponse(result);
             }
         });
-        stringRequest.setRetryPolicy((new DefaultRetryPolicy(3000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)));
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
     }
 
-    public void ProcessResponse(String response){
+        //You can also make VolleyCallback more robust, using generic types if you want to do
+        // processing, or adding start(), failed(Exception e), complete(), etc methods to do a
+        // little more fine-grained state checking.
+
+        //Keep in mind this is an async call, so you will have to update views, etc when you get
+        // the result back (inside success()).
+
+
+        // Request a string response from the provided URL.
+
+
+
+
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        //connects to DB url, retreives response & passes to ProcessResponse method
+//                        ProcessResponse(response);
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                String ErrorMessage = ("Connection error ... ");
+//                Toast.makeText(getActivity(), ErrorMessage, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        stringRequest.setRetryPolicy((new DefaultRetryPolicy(3000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)));
+//        // Add the request to the RequestQueue.
+//        queue.add(stringRequest);
+//    }
+
+    public void ProcessResponse(String result){
         // Make Class that handles JSON paring and convert into usable objects (JsonHadler)
         JsonHandler jsonHandler = new JsonHandler();
         // Populate list (May need to handle exception if nothing is returned?)
-        promoList = jsonHandler.parseJson(response);
+        promoList = jsonHandler.parseJson(result);
         // Send to adapter
         listView.setAdapter(new CustomAdapter(getActivity(), promoList));
     }

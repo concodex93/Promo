@@ -11,13 +11,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.conor.promo.Database.IStorage;
 
-/**
- * Created by conor on 29/10/2016.
- *
- * This is where we will preform REST calls to our mySQL db
- * Hopefully we can use this to make our calls instead of putting the Volley method
- * directly into the Activity we want to use it in!
- */
 
 public class WebServiceHandler implements IStorage {
 
@@ -25,27 +18,31 @@ public class WebServiceHandler implements IStorage {
 
     public WebServiceHandler (Context c) {context = c;}
 
+    String unparsed_response = null;
+//    String unparsed_response = "";
+
     @Override
     public void CREATE() {
 
     }
 
-    @Override
-    public Object READ(Object obj) {
 
+    public Object READ_STRING(Object url_in, final VolleyCallback callback) {
+        String url = (String) url_in;
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(context);
 
         // Request a string response from the provided URL.
-        String url = (String) obj;
+        //return string to the requestee
 
-        // Request a string response from the provided URL.
+
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        ProcessResponse(response);
+                        callback.onSuccess(response);
+//                        ProcessResponse(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -53,7 +50,38 @@ public class WebServiceHandler implements IStorage {
                 String ErrorMessage = ("Connection error ... ");
                 Toast.makeText(context, ErrorMessage, Toast.LENGTH_SHORT).show();
             }
-        });
+        }
+        );
+        stringRequest.setRetryPolicy((new DefaultRetryPolicy(3000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)));
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+
+        return null;
+    }
+    @Override
+//    public Object READ(Object obj) {
+    public Object READ(Object url_in) {
+        String url = (String) url_in;
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        // Request a string response from the provided URL.
+        //return string to the requestee
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+//                        ProcessResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String ErrorMessage = ("Connection error ... ");
+                Toast.makeText(context, ErrorMessage, Toast.LENGTH_SHORT).show();
+            }
+            }
+        );
         stringRequest.setRetryPolicy((new DefaultRetryPolicy(3000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)));
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
@@ -73,5 +101,9 @@ public class WebServiceHandler implements IStorage {
 
     public void ProcessResponse (String response) {
         // Process response and convert into usable objects
+    }
+
+    public interface VolleyCallback{
+        void onSuccess(String result);
     }
 }
