@@ -39,7 +39,7 @@ public class PromoFrag extends Fragment {
 
     // DB
     //DatabaseHelper myDB;
-    //
+    // aba
 
 
     @Override
